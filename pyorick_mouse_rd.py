@@ -32,8 +32,6 @@ y=gridy*0+0.001
 y[int(size/2),int(size/3)] = 0.5;
 diffuse_mask=hstack((array([0]),array(range(size)),array([size-1])));
 
-yo("x=array(1.0,size,size);y=array(0.001,size,size);y(size/2,size/3) = 0.5;diffuse_mask=grow(1,indgen(size),size);")
-        
 T=2000
 
 
