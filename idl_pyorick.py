@@ -98,7 +98,7 @@ def push_but(yo,nwin,isys,olim):
     return [butt,direx,direy,xpos,ypos]
 
 
-def control_rotation(yo,orilim2,orig,comloop):
+def control_rotation(yo,orilim2,orig,myexec):
     butt2=push_but(yo,1,2,orilim2)
     if(int(butt2[0])==1):
         if yo.v.flag_2d==0:
@@ -140,7 +140,7 @@ def control_rotation(yo,orilim2,orig,comloop):
             calc_orilims(yo)
             
             
-def control_color(yo,orilim4,orig,comloop):
+def control_color(yo,orilim4,orig,myexec):
     butt4=push_but(yo,1,4,orilim4)
     if(int(butt4[0])>0):
         set_lim(yo,1,4,orilim4)
@@ -171,7 +171,8 @@ def frame_out(yo,t):
             
 def movie_encode(filename="movie_out.mp4"):
     print('encoding...')
-    check = getoutput("ffmpeg -y -r 22 -i frame%04d.png -b:v 1000000 "+filename)
+    
+    check = getoutput("ffmpeg -y  -i frame%04d.png -b:v 1000000  -vcodec libx264 -qscale 0 "+filename)
     print(check);
     print("output movie file:")
     print(filename)
@@ -229,7 +230,7 @@ def plot_control_run(yo):
         time.sleep(0.0001)
 
 
-def control_command(yo,orilim3,orig,comloop):
+def control_command(yo,orilim3,orig,myexec):
     butt3=push_but(yo,1,3,orilim3)
     if(int(butt3[0])==2):
         ##print("sys3 button2")
@@ -250,8 +251,23 @@ def control_command(yo,orilim3,orig,comloop):
         ##print("sys3 button1")
         print("Enter command: ")
         set_sys(yo,0,1)
-
-        yo.v.command_mode=comloop()
+        
+        while True:
+            com=input("->> ")
+            if com == "exit":
+                print("Exited from command-input")
+                yo.v.command_mode=0
+                break
+            else:
+                try:
+                    myexec(com)
+                except NameError:
+                    print('undefined name')
+                except ZeroDivisionError:
+                    print('division by zero')
+                except:
+                    print('something else went wrong')
+       ## yo.v.command_mode=myexec()
                     
         plot_control(yo)
         if yo.v.flag_animate==1:
@@ -296,7 +312,7 @@ def idlp_init(yo,frame_interval=2,flag_animate=1,flag_frame_out=0,flag_auto_star
 
 
 
-def idlp(yo,idl_sleep,t,comloop,control_funcs=0):
+def idlp(yo,idl_sleep,t,myexec,control_funcs=0):
     orilim=yo.v.orilim
     orilims=yo.v.orilims
     if control_funcs==0:
@@ -313,7 +329,7 @@ def idlp(yo,idl_sleep,t,comloop,control_funcs=0):
     set_sys(yo,1,1)
 
     for ii in range(0,nfunc):
-        control_funcs[ii](yo,orilims[ii],orig,comloop)
+        control_funcs[ii](yo,orilims[ii],orig,myexec)
 
 
     set_sys(yo,1,1)
@@ -361,7 +377,7 @@ def idlp(yo,idl_sleep,t,comloop,control_funcs=0):
 
                 
             for ii in range(0,nfunc):
-                control_funcs[ii](yo,orilims[ii],orig,comloop)
+                control_funcs[ii](yo,orilims[ii],orig,myexec)
 
             orilims=yo.v.orilims
           

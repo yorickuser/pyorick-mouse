@@ -6,29 +6,9 @@
 
 from idl_pyorick import *
 
-def comloop():
-    command_mode=1
-    while True:
-        com=input("->> ")
-        if com == "exit":
-            print("Exited from command-input")
-            command_mode=0
-            break
-        else:
-            try:
-                exec(com)
-            except NameError:
-                print('undefined name')
-            except ZeroDivisionError:
-                print('division by zero')
-            except:
-                print('something else went wrong')
-    return command_mode
-
-
-
-
-
+def myexec(com):
+    exec(com)
+ 
         
 T=2000
 dt=-0.02
@@ -61,7 +41,7 @@ for t in range(0,T):
     
     frame_out(yo,t)
 
-    if(idlp(yo,0.0,t,comloop)):
+    if(idlp(yo,0.0,t,myexec)):
         break
 
 yo.c.window(0)
