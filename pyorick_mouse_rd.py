@@ -4,7 +4,7 @@
 # execution command at console:
 # python3 -i pyorick_mouse_rd.py
 
-from idl_pyorick0_test import *
+from idl_pyorick import *
 
 def comloop():
     command_mode=1
@@ -60,7 +60,7 @@ yo.c.win2()
 idlp_init(yo,frame_interval=4,flag_animate=1,flag_frame_out=0,flag_auto_start=0,flag_2d=1,pal="cr")
 
 nlevs=20
-levs=logspace(0.05,0.6,nlevs)
+levs=geomspace(0.05,0.6,nlevs)
 
 yo.c.window(0)
 
@@ -93,7 +93,7 @@ for t in range(0,T):
     yo.c.draw3_trigger()
         
     
-    yo.c.plfc(y,gridy,gridx)
+    yo.c.plfc(y,gridy,gridx,levs=levs)
 
     yo.c.xyt("Diffusion rate for x", "Diffusion rate for y")
     yo.c.redraw()
