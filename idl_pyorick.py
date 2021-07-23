@@ -6,8 +6,6 @@ from numpy import *
 from subprocess import getoutput
 import time
 
-
-
 def calc_orilims(yo):
     yo.v.orilim=get_lim(yo,1,1)
     orilim2=get_lim(yo,1,2)
